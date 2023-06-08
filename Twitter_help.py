@@ -1,5 +1,5 @@
 import pandas as pd
-
+import matplotlib.pyplot as plt
 import re
 import string
 data = pd.read_csv('translated_dataset2.csv')
@@ -53,4 +53,12 @@ print(len(data[data['classification'] != "Other"]))
 
 
 data.to_csv('translated_dataset3.csv', index=False)
+
+# Create a bar plot of the class distribution
+class_counts = data['classification'].value_counts()
+class_counts.plot(kind='bar')
+plt.title('Class Distribution of Tweet Data')
+plt.xlabel('Class')
+plt.ylabel('Number of Tweets')
+plt.show()
 
