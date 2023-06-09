@@ -47,7 +47,7 @@ available_package = list(
     )
 )[0]
 download_path = available_package.download()
-argostranslate.package.install_from_path(download_path)
+argostranslate.package.install_from_path(download_path) 
 
 # Translate
 installed_languages = argostranslate.translate.get_installed_languages()

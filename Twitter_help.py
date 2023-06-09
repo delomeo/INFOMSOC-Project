@@ -2,27 +2,32 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import re
 import string
-data = pd.read_csv('translated_dataset2.csv')
+data = pd.read_csv('full_data.csv')
 
 classes = {
-    'Help': ['help', 'assistance', 'support', 'donate'],
-    'News': ['earthquake', 'magnitude', 'aftershock', 'rescue', 'recovery'],
-    'Funding': ['fundraiser', 'donation', 'charity', 'fund'],
-    'Survivor stories': ['survivor', 'personal account', 'experience', 'impact'],
-    'Volunteering': ['volunteer', 'helping', 'aid', 'support'],
-    'Political response': ['government', 'political', 'action', 'response'],
-    'Humanitarian aid': ['humanitarian', 'aid', 'relief', 'support'],
-    'Casualty reports': ['injury', 'death', 'fatal', 'missing', 'victims'],
-    'Infrastructure damage': ['building', 'bridge', 'road', 'power', 'water', 'gas', 'telecommunications'],
-    'Emergency services': ['ambulance', 'fire', 'police', 'emergency', 'rescue'],
-    'Prayer and condolences': ['prayer', 'thoughts', 'condolences', 'sympathy'],
-    'International aid': ['international', 'donor', 'aid', 'relief'],
-    'Personal safety': ['safety', 'evacuation', 'shelter', 'protection', 'precaution']
+    'Need': ['emergency', 'urgent', 'stranded', 'trapped', 'stuck', 'need', 'require', 'request', 'seeking', 'missing', 'seek', 'suffering', 'desperate', 'homeless'],
+    'Offer': ['provide', 'volunteer', 'offer', 'available', 'rescue', 'assisting', 'extend', 'lend', 'pitch in', 'contribute', 'give', 'supportive'],
+    'News': ['earthquake', 'magnitude', 'aftershock', 'recovery', 'update', 'latest'],
+    'Funding': ['fundraiser', 'donation', 'charity', 'fund', 'support', 'contribute', 'financial aid'],
+    'Survivor stories': ['survivor', 'personal account', 'experience', 'impact', 'narrative', 'testimonial', 'journey'],
+    'Volunteering': ['volunteer', 'helping', 'aid', 'support', 'contribute', 'community', 'service', 'dedicate'],
+    'Political response': ['government', 'political', 'action', 'response', 'official', 'policy', 'decision'],
+    'Humanitarian aid': ['humanitarian', 'aid', 'relief', 'support', 'assistance', 'donation', 'charitable'],
+    'Casualty reports': ['injury', 'death', 'fatal', 'missing', 'victims', 'fatalities', 'casualties', 'affected'],
+    'Infrastructure damage': ['building', 'bridge', 'road', 'power', 'water', 'gas', 'telecommunications', 'structural', 'damaged', 'utility'],
+    'Emergency services': ['ambulance', 'fire', 'police', 'emergency', 'rescue', 'paramedics', 'firefighters', 'law enforcement'],
+    'Prayer and condolences': ['prayer', 'thoughts', 'condolences', 'sympathy', 'grief', 'comfort', 'mourning'],
+    'International aid': ['international', 'donor', 'relief', 'support', 'assistance', 'global', 'humanitarian'],
+    'Personal safety': ['safety', 'evacuation', 'shelter', 'protection', 'precaution', 'security', 'secure', 'safe']
 }
 
 
 
+
+
 def preprocess_text(text):
+    if pd.isna(text):
+        return ''
     # Remove URLs
     text = re.sub(r'http\S+', '', text)
 
@@ -36,7 +41,7 @@ def preprocess_text(text):
     text = re.sub('\s+', ' ', text).strip()
 
     return text
-# Define a function to label each tweet based on its content
+
 def classify_tweet(tweet_text):
     for class_name, keywords in classes.items():
         for keyword in keywords:
