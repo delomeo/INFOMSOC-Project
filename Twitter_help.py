@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import re
 import string
-data = pd.read_csv('full_data.csv')
+
+data = pd.read_csv('./archive/english_data_with_locations.csv')
 
 classes = {
     'Need': ['emergency', 'urgent', 'stranded', 'trapped', 'stuck', 'need', 'require', 'request', 'seeking', 'missing', 'seek', 'suffering', 'desperate', 'homeless'],
@@ -50,14 +51,14 @@ def classify_tweet(tweet_text):
     return 'Other'  # If no keyword matches, label as "Other"
 
 # Add a new column to the dataframe with the class label for each tweet
-data['translated_content'] = data['translated_content'].apply(preprocess_text)
-data['classification'] = data['translated_content'].apply(classify_tweet)
+data['content'] = data['content'].apply(preprocess_text)
+data['classification'] = data['content'].apply(classify_tweet)
 
 print(len(data[data['classification'] != "Other"]))
 
 
 
-data.to_csv('translated_dataset3.csv', index=False)
+data.to_csv('translated_dataset3_2.csv', index=False)
 
 # Create a bar plot of the class distribution
 class_counts = data['classification'].value_counts()
